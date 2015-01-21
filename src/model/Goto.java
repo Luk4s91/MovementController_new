@@ -11,6 +11,10 @@ public class Goto extends Control{
 		return jumpAdress;
 	}
 	
+	public void setJumpAdress(int jumpAdress) {
+		this.jumpAdress = jumpAdress;
+	}
+
 	public String getJumpAdressAsString(){
 		return ""+jumpAdress+"";
 	}

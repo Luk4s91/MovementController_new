@@ -11,6 +11,14 @@ public class Gear extends Movement{
 		return duration;
 	}
 	
+	public void setSpeed(int speed) {
+		this.speed = speed;
+	}
+
+	public void setDuration(int duration) {
+		this.duration = duration;
+	}
+
 	public String getSpeedAsString(){
 		return ""+speed+"";
 	}

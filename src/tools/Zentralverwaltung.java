@@ -9,7 +9,7 @@ import model.Prototyp;
 public class Zentralverwaltung implements Interface{
 	private Vector <Prototyp> prototypen = new Vector <Prototyp>();    //Es soll von jedem Vektor nur einen geben.
 
-	private Vector <Command> controllprocess = new Vector <Command>();
+	private Vector <Command> commands = new Vector <Command>();
 	
 	private static Zentralverwaltung instance = null;
 	
@@ -24,7 +24,7 @@ public class Zentralverwaltung implements Interface{
 		return prototypen;
 	}
 	public Vector<Command> getCommand() {
-		return controllprocess;
+		return commands;
 	}
 	public Prototyp vPrototypenObject(int iD){
 		return prototypen.elementAt(iD);
@@ -32,8 +32,8 @@ public class Zentralverwaltung implements Interface{
 	public String vPrototypenToString(){
 		return prototypen.toString();
 	}
-	public String vControllProcessToString(){
-		return controllprocess.toString();
+	public String vcommandsToString(){
+		return commands.toString();
 	}
 	public void createPrototypes()
 	{
@@ -44,37 +44,37 @@ public class Zentralverwaltung implements Interface{
 	}	
 	public void addStep(Prototyp prototyp)
 	{	
-		controllprocess.addElement(prototyp.createInstance()); //Fuegt vom ausgewaehlten Prototyp ein Command-Objekt ein.
+		commands.addElement(prototyp.createInstance()); //Fuegt vom ausgewaehlten Prototyp ein Command-Objekt ein.
 	}
 	public void removeStep(int iD)
 	{
-		if(controllprocess.size()>iD){
-		controllprocess.remove(iD);
+		if(commands.size()>iD){
+		commands.remove(iD);
 		}
 	}
 	public void incOrder(int iD)
 	{
-		if(!controllprocess.firstElement().equals(controllprocess.elementAt(iD)))
+		if(!commands.firstElement().equals(commands.elementAt(iD)))
 		{
-		controllprocess.addElement(controllprocess.elementAt(iD-1)); //Temp in Vektorliste
-//		System.out.println("1: " + controllprocess);
-		controllprocess.setElementAt(controllprocess.elementAt(iD), iD-1);
-//		System.out.println("2: " + controllprocess);
-		controllprocess.setElementAt(controllprocess.lastElement(), iD);
-//		System.out.println("3: " + controllprocess);
-		controllprocess.removeElementAt(controllprocess.size()-1);
-		//controllprocess.removeElementAt(controllprocess.lastIndexOf(controllprocess)+1);
+		commands.addElement(commands.elementAt(iD-1)); //Temp in Vektorliste
+//		System.out.println("1: " + commands);
+		commands.setElementAt(commands.elementAt(iD), iD-1);
+//		System.out.println("2: " + commands);
+		commands.setElementAt(commands.lastElement(), iD);
+//		System.out.println("3: " + commands);
+		commands.removeElementAt(commands.size()-1);
+		//commands.removeElementAt(commands.lastIndexOf(commands)+1);
 		}
 	}
 	public void decOrder(int iD)
 	{
-		if(!controllprocess.lastElement().equals(controllprocess.elementAt(iD)))
+		if(!commands.lastElement().equals(commands.elementAt(iD)))
 		{
-		controllprocess.addElement(controllprocess.elementAt(iD+1)); //Temp in Vektorliste
-		controllprocess.setElementAt(controllprocess.elementAt(iD), iD+1);
-		controllprocess.setElementAt(controllprocess.lastElement(), iD);
-		controllprocess.removeElementAt(controllprocess.size()-1);
-		//controllprocess.removeElementAt(controllprocess.lastIndexOf(controllprocess));
+		commands.addElement(commands.elementAt(iD+1)); //Temp in Vektorliste
+		commands.setElementAt(commands.elementAt(iD), iD+1);
+		commands.setElementAt(commands.lastElement(), iD);
+		commands.removeElementAt(commands.size()-1);
+		//commands.removeElementAt(commands.lastIndexOf(commands));
 		}
 	}
 
@@ -86,7 +86,7 @@ public class Zentralverwaltung implements Interface{
 		daten=ser.laden(verzeichnis);
 		
 		prototypen=(Vector<Prototyp>) daten.get("Zentralverwaltung");
-		controllprocess=(Vector<Command>) daten.get("Zentralverwaltung");
+		commands=(Vector<Command>) daten.get("Zentralverwaltung");
 		
 		return null;
 	}
@@ -95,7 +95,7 @@ public class Zentralverwaltung implements Interface{
 	public void speichern(Properties daten, String verzeichnis) {
 		daten=new Properties();
 		daten.put("Zentralverwaltung", prototypen);
-		daten.put("Zentralverwaltung", controllprocess);
+		daten.put("Zentralverwaltung", commands);
 		Serialisieren ser=new Serialisieren();
 		ser.speichern(daten, verzeichnis);
 	

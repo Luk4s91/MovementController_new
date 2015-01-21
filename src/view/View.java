@@ -11,8 +11,10 @@ import javax.swing.plaf.SplitPaneUI;
 import javax.swing.plaf.basic.BasicBorders.SplitPaneBorder;
 
 import model.Command;
+import model.Direction;
 import model.Gear;
 import model.Goto;
+import model.If;
 import model.Prototyp;
 import tools.Zentralverwaltung;
 
@@ -21,9 +23,9 @@ public class View extends JFrame {
 
 	private Zentralverwaltung zentral;
 	
-	public View(Zentralverwaltung zentral) {
+	public View(Zentralverwaltung zentral) { //bekommt zentral aus main
 		super("Zentralverwaltung");                  
-		this.zentral = zentral;
+		this.zentral = zentral;              //zentral von View bekommt zentral uebergeben
 		
 //WINDOW
 		setTitle("Control-Developer");
@@ -157,7 +159,7 @@ public class View extends JFrame {
 					output.setText("Fehler: Kein Prototyp ausgewaehlt.");
 				}else{
 					commandList.updateUI();
-					zentral.addStep(prototypList.getSelectedValue());
+					zentral.addStep(prototypList.getSelectedValue());   //Fuegt im Vector commands ein Element hinzu vom typ des ausgewaehlten prototypen
 				}
 
 			}
@@ -204,6 +206,69 @@ public class View extends JFrame {
 
 			}
 		});
+        
+        saveButton.addActionListener(new ActionListener(){
+        	
+        	@Override
+			public void actionPerformed(ActionEvent e) {
+				if (commandList.isSelectionEmpty()){
+					output.setText("Fehler: Kein Command ausgewaehlt.");
+				}else{
+					
+					if(commandList.getSelectedValue().getCommandName() =="Gear"){
+	        			Gear gear = (Gear)zentral.getCommand().get(commandList.getSelectedIndex());
+	        				        			            		
+	        			try {
+							gear.setSpeed(Integer.parseInt(speedValue.getText()));
+						} catch (NumberFormatException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+	        			try {
+							gear.setDuration(Integer.parseInt(durationValue.getText()));
+						} catch (NumberFormatException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+	            		
+	        		}else if(commandList.getSelectedValue().getCommandName() =="Goto"){
+	        			Goto gotox = (Goto)zentral.getCommand().get(commandList.getSelectedIndex());
+	        			
+	        			try {
+							gotox.setJumpAdress(Integer.parseInt(jumpAdressValue.getText()));
+						} catch (NumberFormatException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+	            		
+	        		}else if(commandList.getSelectedValue().getCommandName() =="Direction"){
+	        			Direction direction = (Direction)zentral.getCommand().get(commandList.getSelectedIndex());
+	        			
+	        			try {
+							direction.setDegree(Integer.parseInt(degreeValue.getText()));
+						} catch (NumberFormatException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+	            		
+	        		}else if(commandList.getSelectedValue().getCommandName() =="If"){
+	        			If ifx = (If)zentral.getCommand().get(commandList.getSelectedIndex());
+	        			
+	        			try {
+							ifx.setReference(Integer.parseInt(referenceValue.getText()));
+						} catch (NumberFormatException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+	        		
+	        		}
+					
+				}
+
+			}
+        	
+        	
+        });
 	    
         commandList.addListSelectionListener(new SelectionListener(){
         	public void valueChanged(ListSelectionEvent e) {
@@ -221,7 +286,7 @@ public class View extends JFrame {
             		configPanel.add(duration);
             		durationValue.setText(gear.getDurationAsString());
             		configPanel.add(durationValue);
-            		          		
+            		
         		}else if(commandList.getSelectedValue().getCommandName() =="Goto"){
         			Goto gotox = (Goto)zentral.getCommand().get(commandList.getSelectedIndex());
         			
@@ -232,7 +297,28 @@ public class View extends JFrame {
             		jumpAdressValue.setText(gotox.getJumpAdressAsString());
             		configPanel.add(jumpAdressValue);
             		
+        		}else if(commandList.getSelectedValue().getCommandName() =="Direction"){
+        			Direction direction = (Direction)zentral.getCommand().get(commandList.getSelectedIndex());
+        			
+        			configPanel.updateUI();
+        			configPanel.removeAll();
+        			
+            		configPanel.add(degree);
+            		degreeValue.setText(direction.getDegreeAsString());
+            		configPanel.add(degreeValue);
+            		
+        		}else if(commandList.getSelectedValue().getCommandName() =="If"){
+        			If ifx = (If)zentral.getCommand().get(commandList.getSelectedIndex());
+        			
+        			configPanel.updateUI();
+        			configPanel.removeAll();
+        			
+            		configPanel.add(reference);
+            		referenceValue.setText(ifx.getReferenceAsString());
+            		configPanel.add(referenceValue);
+            		
         		}
+        		
         		
         	}
         });
@@ -248,7 +334,7 @@ public class View extends JFrame {
 	view.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	//view.pack();
 	view.setVisible(true);
-	//ENDE
+	
 	}
 
 }

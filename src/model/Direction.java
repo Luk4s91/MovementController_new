@@ -19,6 +19,13 @@ public class Direction extends Movement{
 		super(name,iD,stepId, hwAdress);
 		this.degree=degree;
 	}
+	
+	public void setDegree(int degree) {
+		this.degree = degree;
+	}
+	public String getDegreeAsString(){
+		return ""+degree+"";
+	}
 	@Override
 	public String toString() {
 		return "Direction [degree=" + degree + ", toString()="

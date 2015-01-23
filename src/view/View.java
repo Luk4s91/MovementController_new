@@ -39,6 +39,8 @@ public class View extends JFrame {
         menu.add(dataMenu);
         JMenuItem openEntry = new JMenuItem("Open");
         dataMenu.add(openEntry);
+        JMenuItem saveEntry = new JMenuItem("Save");
+        dataMenu.add(saveEntry);
         JMenuItem exitEntry = new JMenuItem("Exit");
         dataMenu.add(exitEntry);
         JMenu helpMenu = new JMenu("Help");
